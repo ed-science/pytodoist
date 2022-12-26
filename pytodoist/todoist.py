@@ -165,8 +165,7 @@ def register_with_google(full_name, email, oauth2_token, lang=None, timezone=Non
     )
     _fail_if_contains_errors(response)
     user_json = response.json()
-    user = User(user_json)
-    return user
+    return User(user_json)
 
 
 def _fail_if_contains_errors(response, sync_uuid=None):
@@ -228,10 +227,7 @@ class TodoistObject(object):
         tuple instead, forcing them to overwrite it if they wish to modify it.
         '''
         attribute = object.__getattribute__(self, name)
-        if isinstance(attribute, (list)):
-            return tuple(attribute)
-        else:
-            return attribute
+        return tuple(attribute) if isinstance(attribute, (list)) else attribute
 
 
 class User(TodoistObject):
@@ -1215,33 +1211,31 @@ class Project(TodoistObject):
         name = self.name
         # Cap the length.
         if len(name) > _REPR_CHAR_LIMIT:
-            name = name[: _REPR_CHAR_LIMIT - 3] + "..."
+            name = f"{name[:_REPR_CHAR_LIMIT - 3]}..."
         if self.parent_id is not None:
             parent = self.owner.projects[self.parent_id]
             parent_name = parent.name
             if len(parent_name) > _REPR_CHAR_LIMIT:
-                parent_name = parent_name[: _REPR_CHAR_LIMIT - 3] + "..."
-            parent_str = ' with Parent "{}"'.format(parent_name)
+                parent_name = f"{parent_name[:_REPR_CHAR_LIMIT - 3]}..."
+            parent_str = f' with Parent "{parent_name}"'
         else:
             parent_str = ""
         s = '<{cls} "{name}"{parent_str}>'
-        s = s.format(cls=cls_name, name=name, parent_str=parent_str)
-        return s
+        return s.format(cls=cls_name, name=name, parent_str=parent_str)
 
     def __repr__(self):
         cls_name = type(self).__name__
         name = self.name
         # Cap the length.
         if len(name) > _REPR_CHAR_LIMIT:
-            name = name[: _REPR_CHAR_LIMIT - 3] + "..."
+            name = f"{name[:_REPR_CHAR_LIMIT - 3]}..."
         if self.parent_id is not None:
             parent = self.owner.projects[self.parent_id]
-            parent_str = ", parent={}".format(repr(parent))
+            parent_str = f", parent={repr(parent)}"
         else:
             parent_str = ""
         s = '{cls}("{name}"{parent_str})'
-        s = s.format(cls=cls_name, name=name, parent_str=parent_str)
-        return s
+        return s.format(cls=cls_name, name=name, parent_str=parent_str)
 
 
 class Task(TodoistObject):
@@ -1502,24 +1496,22 @@ class Task(TodoistObject):
         content, project = self.content, self.project.name
         # Cap the length.
         if len(content) > _REPR_CHAR_LIMIT:
-            content = content[: _REPR_CHAR_LIMIT - 3] + "..."
+            content = f"{content[:_REPR_CHAR_LIMIT - 3]}..."
         if len(project) > _REPR_CHAR_LIMIT:
-            project = project[: _REPR_CHAR_LIMIT - 3] + "..."
+            project = f"{project[:_REPR_CHAR_LIMIT - 3]}..."
         s = '<{cls} "{content}" in Project "{project}">'
-        s = s.format(cls=cls_name, content=content, project=project)
-        return s
+        return s.format(cls=cls_name, content=content, project=project)
 
     def __repr__(self):
         cls_name = type(self).__name__
         content, project = self.content, self.project.name
         # Cap the length.
         if len(content) > _REPR_CHAR_LIMIT:
-            content = content[: _REPR_CHAR_LIMIT - 3] + "..."
+            content = f"{content[:_REPR_CHAR_LIMIT - 3]}..."
         if len(project) > _REPR_CHAR_LIMIT:
-            project = project[: _REPR_CHAR_LIMIT - 3] + "..."
+            project = f"{project[:_REPR_CHAR_LIMIT - 3]}..."
         s = '{cls}("{content}", project="{project}")'
-        s = s.format(cls=cls_name, content=content, project=project)
-        return s
+        return s.format(cls=cls_name, content=content, project=project)
 
 
 class Note(TodoistObject):
@@ -1648,20 +1640,18 @@ class Label(TodoistObject):
         name = self.name
         # Cap the length.
         if len(name) > _REPR_CHAR_LIMIT:
-            name = name[: _REPR_CHAR_LIMIT - 3] + "..."
+            name = f"{name[:_REPR_CHAR_LIMIT - 3]}..."
         s = '<{cls} "{name}">'
-        s = s.format(cls=cls_name, name=name)
-        return s
+        return s.format(cls=cls_name, name=name)
 
     def __repr__(self):
         cls_name = type(self).__name__
         name = self.name
         # Cap the length.
         if len(name) > _REPR_CHAR_LIMIT:
-            name = name[: _REPR_CHAR_LIMIT - 3] + "..."
+            name = f"{name[:_REPR_CHAR_LIMIT - 3]}..."
         s = '{cls}("{name}")'
-        s = s.format(cls=cls_name, name=name)
-        return s
+        return s.format(cls=cls_name, name=name)
 
 
 class Filter(TodoistObject):

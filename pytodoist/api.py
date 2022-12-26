@@ -86,9 +86,7 @@ class TodoistAPI(object):
         John Doe
         """
         params = {"email": email, "oauth2_token": oauth2_token}
-        req_func = self._get
-        if kwargs.get("auto_signup", 0) == 1:  # POST if we're creating a user.
-            req_func = self._post
+        req_func = self._post if kwargs.get("auto_signup", 0) == 1 else self._get
         return req_func("login_with_google", params, **kwargs)
 
     def register(self, email, full_name, password, **kwargs):

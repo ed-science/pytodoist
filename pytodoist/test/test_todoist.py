@@ -77,7 +77,7 @@ class UserTest(unittest.TestCase):
         self.assertIsNotNone(link)
 
     def test_update(self):
-        new_name = self.user.full_name + ' Jnr'
+        new_name = f'{self.user.full_name} Jnr'
         self.user.full_name = new_name
         self.user.update()
         self.user = todoist.login(self.user.email, self.user.password)
@@ -137,7 +137,7 @@ class UserTest(unittest.TestCase):
     def test_get_tasks(self):
         inbox = self.user.get_project(_INBOX_PROJECT_NAME)
         inbox.add_task(_TASK)
-        inbox.add_task(_TASK + '2')
+        inbox.add_task(f'{_TASK}2')
         tasks = self.user.get_tasks()
         for task in tasks:
             self.assertIsNotNone(task)
@@ -177,7 +177,7 @@ class UserTest(unittest.TestCase):
     def test_search_tasks_overdue(self):
         inbox = self.user.get_project(_INBOX_PROJECT_NAME)
         inbox.add_task(_TASK, date='today')
-        inbox.add_task(_TASK + '2', date='1 Jan 2000')
+        inbox.add_task(f'{_TASK}2', date='1 Jan 2000')
         tasks = self.user.search_tasks(todoist.Query.OVERDUE)
         self.assertEqual(len(tasks), 1)
 
@@ -223,7 +223,7 @@ class ProjectTest(unittest.TestCase):
         self.assertEqual(len(projects), N_DEFAULT_PROJECTS)
 
     def test_update(self):
-        new_name = _PROJECT_NAME + '2'
+        new_name = f'{_PROJECT_NAME}2'
         self.project.name = new_name
         self.project.update()
         project = self.user.get_project(new_name)
@@ -289,7 +289,7 @@ class TaskTest(unittest.TestCase):
         self.user.delete()
 
     def test_update(self):
-        new_content = _TASK + '2'
+        new_content = f'{_TASK}2'
         self.task.content = new_content
         self.task.update()
         tasks = self.project.get_tasks()

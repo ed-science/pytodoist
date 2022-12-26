@@ -16,7 +16,7 @@ class TestUser(object):
 
     def __init__(self):
         self.full_name = "Test User"
-        self.email = "pytodoist_" + generate_id() + "@gmail.com"
+        self.email = f"pytodoist_{generate_id()}@gmail.com"
         self.password = "password"
         self.token = None
         self.sync_token = '*'
